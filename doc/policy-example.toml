@@ -1,0 +1,41 @@
+# SIGINT Policy Configuration
+# This file MUST be signed with Ed25519. Unsigned policy is rejected at boot.
+#
+# Sign:  sigint-ctl policy sign --key /path/to/private.key --policy /etc/sigint/policy.toml
+# Verify: sigint-ctl policy verify --policy /etc/sigint/policy.toml
+
+[thresholds]
+tau = 0.55                  # AMBER trigger (0.0-1.0)
+tau_critical = 0.80         # RED trigger
+grace_seconds = 45          # Time above tau before AMBER fires
+panic_seconds = 120         # Time above tau_critical before BLACK fires
+
+[enrollment]
+min_days = 7
+max_days = 30
+min_daily_minutes = 30
+auto_activate = false       # Require manual activation after enrollment
+
+[response.amber]
+action = "lock"
+
+[response.red]
+action = "lock_and_kill"
+notify = false              # No visible notification to the operator
+
+[response.black]
+enabled = false             # Disabled by default. Opt-in only.
+confirm_delay = 5           # Seconds between decision and execution
+
+[response.silent]
+enabled = false
+
+[adaptive]
+micro_update_lambda = 0.005
+anchor_drift_max = 0.25
+time_segments = 4
+
+[scoring]
+alpha = 0.6                 # Mahalanobis vs digraph ensemble weight
+window_seconds = 30
+min_events_per_window = 40  # Ignore sparse windows (user barely typing)
