@@ -2,7 +2,7 @@
 
 **Silent Identity Guard via INput Telemetry**
 
-A keystroke dynamics biometric dead man's switch for Linux. SIGINT passively builds a typing profile during an enrollment period, then continuously scores live typing sessions against that profile. When the operator's identity confidence drops below threshold — indicating someone else is at the keyboard — configurable responses fire: lock the screen, kill sessions, or silently exfiltrate forensic data.
+A keystroke dynamics biometric dead man's switch for Linux. SIGINT passively builds a typing profile during an enrollment period, then continuously scores live typing sessions against that profile. When the operator's identity confidence drops below threshold — indicating someone else is at the keyboard — configurable responses fire: lock the screen or kill sessions.
 
 It is not a login gate. It is a **session-continuous identity tripwire** that assumes the authenticated user may have been replaced mid-session.
 
@@ -37,7 +37,7 @@ Requires [Zig](https://ziglang.org/) 0.15+ on Linux.
 zig build                          # Debug build, all 4 binaries
 zig build -Doptimize=ReleaseSafe   # Production build
 zig build test                     # Run all tests
-zig build -Dwipe_support=true      # Include BLACK wipe code (opt-in)
+zig build -Dwipe_support=true      # Enable BLACK response flag (wipe not yet implemented)
 zig build -Dfeature_dim=90         # Use 90-dimensional feature vectors
 ```
 
